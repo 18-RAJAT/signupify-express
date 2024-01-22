@@ -1,26 +1,31 @@
 const express=require('express');
 const path=require('path');//join
-const app=express();//predefined function call
+const bodyParser=require('body-parser');
+
+const app=express();
 const port=8000;
-
-// app.get('/',(req,res)=>{
-//     return res.send('Welcome to the home page');
-// });
-//send file
-// app.get('/',(req,res)=>{
-//     return res.sendFile("./index.html");
-// });
-
-app.get('/',(req,res)=>{
-    console.log(__dirname);
-    return res.sendFile(path.join(__dirname,'index.html'));
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(express.json());//request send in json format from body
+app.get("/api/v1/userdata",(req,res)=>{
+    res.json({
+        name:"Alex",
+        email:"Alex12@gmail.com",
+        password:"123456Alex",
+    });
 });
 
-//data feed to the server
-// app.post('/',(req,res)=>{
-//     return res.send('You are at the post page');
-// });
-
+app.post("/api/v1/register",(req,res)=>{
+    // const userName=req.body.name;
+    // const userEmail=req.body.email;
+    // const userPassword=req.body.password;
+    res.json({
+        message:"User registered successfully",
+        success:true,
+        // name:userName,
+        // email:userEmail,
+        // password:userPassword,
+    });
+});
 app.listen(port,()=>{
     console.log(`Server is running at port ${port}`);
 });
